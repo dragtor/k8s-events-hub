@@ -191,7 +191,7 @@ func NewEventWatcher(clientset *kubernetes.Clientset, namespace string) (watch.I
 	logger := zerolog.New(os.Stdout).With().Timestamp().Caller().Logger()
 	eventWatcher, err := clientset.CoreV1().Events(namespace).Watch(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		logger.Error().Err(err).Msg("Failed to watch k8s object type : Workspace")
+		logger.Error().Err(err).Msg("Failed to watch k8s object type")
 		return nil, err
 	}
 	return eventWatcher, nil
@@ -205,7 +205,7 @@ func (eventSubscriber *EventSubscriber) processK8sEvents(done chan bool, clients
 	}()
 	eventWatcher, err := NewEventWatcher(clientset, namespace)
 	if err != nil {
-		logger.Error().Err(err).Msg("Failed to watch k8s object type : Workspace")
+		logger.Error().Err(err).Msg("Failed to watch k8s object type ")
 		return
 	}
 	defer eventWatcher.Stop()
